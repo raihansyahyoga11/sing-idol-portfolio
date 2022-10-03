@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SINGIDOL</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="container">
+    <div class="card m-4 p-4">
+
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Detail Konser</h2>
+                <br>
+                <p th:text="'Nama Konser    : ' + ${konser.namaKonser}"></p>
+                <p th:text="'Waktu          : ' + ${konser.waktu}"></p>
+                <p th:text="'Tempat         : ' + ${konser.tempat}"></p>
+                <p th:text="'Pendapatan        : ' + ${konser.totalPendapatan}"></p>
+<!--                <p th:text="'Tanggal Dimulai: ' + ${#temporals.format(course.tanggalDimulai, 'dd MMMM yyyy HH:mm')}"></p>-->
+
+                <br>
+                <a class="btn btn-primary" th:href="@{/konser/update/} + ${konser.id}">Ubah Konser</a>
+                <br><br>
+                <div class="col">
+                    <br>
+                    <h4>Jadwal Tampil Idol</h4>
+                    <hr>
+                    <div th:if="*{listPenampilan.size() != 0}">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Jam</th>
+                                <th>Idol</th>
+                                <th>Detail Idol</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="penampilan, iterationStatusP: ${listPenampilan}"
+                                th:style="${iterationStatusP.even} ? 'font-weight:bold;'">
+                                <td th:text="${penampilan.waktu}"></td>
+                                <td th:text="${penampilan.namaIdol}"></td>
+                                <td>
+                                    <a class="btn btn-primary"  th:href="@{/idol/view(id=${idol.id})}">Detail
+                                Idol</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br>
+                </div>
+                <a class="btn btn-primary" href="/konser/viewall">Kembali</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

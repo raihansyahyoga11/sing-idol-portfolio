@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Course</title>
+  <head th:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  </head>
+  <head th:fragment="js">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous">
+    </script>
+    <script src="https://getbootsrap.com/docs/4.1/assets/js/vendor/popper.min.js"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+  </head>
+</head>
+<body>
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+  <a href="/" class="navbar-brand font-weight-bold text-primary">SINGIDOL</a>
+  <button class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle Navigation"
+  >
+    <span class="navbar-toggler-icons"></span>
+  </button>
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      <a th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}"
+         th:href="@{/}" class="nav-item nav-link ">
+        Beranda <span class="sr-only">(current)</span>
+      </a>
+      <a th:classappend="${#httpServletRequest.getRequestURI().startsWith('/konser') ? 'active':''}"
+         th:href="@{/konser/viewall}" class="nav-item nav-link ">
+        Konser<span class="sr-only">(current)</span>
+      </a>
+      <a th:classappend="${#httpServletRequest.getRequestURI().startsWith('/tiket') ? 'active':''}"
+         th:href="@{/ticket/viewall}" class="nav-item nav-link ">
+        Tiket<span class="sr-only">(current)</span>
+      </a>
+      <a th:classappend="${#httpServletRequest.getRequestURI().startsWith('/idol') ? 'active':''}"
+         th:href="@{/idol/viewall}" class="nav-item nav-link ">
+        Idol<span class="sr-only">(current)</span>
+      </a>
+    </ul>
+    <form class="form-inline my-2 my-lg-0" th:action="@{/course/view}" method="get">
+      <input class="form-control mr-sm-2" type="search"
+             name="code" placeholder="Code Course" aria-label="Search">
+      <button type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+</body>
+</html>

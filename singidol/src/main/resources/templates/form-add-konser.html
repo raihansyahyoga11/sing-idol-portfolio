@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>SINGIDOL</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<div class="container">
+  <nav th:replace="fragments/fragment :: navbar"></nav>
+  <div class="card m-4 p-4">
+    <div class="card-body">
+      <div class="justify-content-center">
+        <h2>Tambah Konser</h2>
+        <br>
+        <form th:action="@{/konser/add}" th:object="${konser}" method="POST">
+          Nama Konser: <br>
+          <input class="form-control" type="text" th:field="*{namaKonser}"/>
+          <br><br>
+
+
+          Waktu <br>
+          <input class="form-control" type="datetime-local" th:field="*{waktu}" />
+          <br><br>
+
+
+          tempat: <br>
+          <input class="form-control" type="text" th:field="*{tempat}" />
+          <br><br>
+
+          <table>
+            <thead>
+            <th>Daftar Idol</th>
+            <th>
+              <button class="btn btn-primary" type="submit" name="addRow">Tambah Row</button>
+            </th>
+            </thead>
+            <tbody>
+            <tr th:each="idol, iterationStatus: *{penampilan}">
+              <td>
+                <select name="id" th:field="*{penampilan[__${iterationStatus.index}__].id}"
+                        class="form-control">
+                  <div th:each="idolEx, iterationStatus2 : ${listIdolExisting}" th:field="penampilan[__${iterationStatus.index}__].idIdol">
+                    <option th:value="${penampilan.id}" th:text="${idolEx.namaIdol}"></option>
+                  </div>
+                </select>
+              </td>
+              <td>
+                <input class="form-control" type="time" th:field="*{penampilan[__${iterationStatus.index}__].jamMulaiTampil}" />
+              </td>
+              <td>
+                <button type="submit" class="btn btn-danger" th:value="${iterationStatus.index}" name="deleteRow">Hapus</button>
+              </td>
+
+            </tr>
+            </tbody>
+          </table>
+          <button class="btn btn-primary" type="submit" name="save">Submit</button>
+          <a class="btn btn-primary" href="/">Home</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

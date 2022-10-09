@@ -39,12 +39,12 @@ public class TiketModel {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_konser", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private KonserModel idKonser;
+    private KonserModel konser;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_tipe", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private TipeModel idTipe;
+    private TipeModel tipe;
 
     @NotNull
     @Size(max = 255)

@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -52,8 +53,8 @@ public class KonserController {
         List<IdolModel> listIdol = idolService.getListIdol();
         List<PenampilanModel> listPenampilanNew = new ArrayList<>();
 
-        konser.setPenampilan(listPenampilanNew);
-        konser.getPenampilan().add(new PenampilanModel());
+        konser.setPenampilanKonser(listPenampilanNew);
+        konser.getPenampilanKonser().add(new PenampilanModel());
 
 //        List<PengajarModel> listPengajarNew = new ArrayList<>();
 //        course.setListPengajar(listPengajarNew);
@@ -70,14 +71,22 @@ public class KonserController {
 //        if (course.getListPengajar() == null) {
 //            course.setListPengajar(new ArrayList<>());
 //        }
+//        System.out.println(konser.toString());
+//        for (PenampilanModel penampilan : konser.getPenampilan()) {
+//            System.out.println(penampilan.getIdIdol().getNamaIdol());
+//        }
+        if (konser.getPenampilanKonser() == null) {
 
-        if (konser.getPenampilan() == null) {
-            konser.setPenampilan(new ArrayList<>());
+            konser.setPenampilanKonser(new ArrayList<>());
+            System.out.println("if");
         }
         else {
-            for (int i = 0; i < konser.getPenampilan().size(); i++) {
-                konser.getPenampilan().get(i).setIdKonser(konser);
+            System.out.println("else");
+            for (int i = 0; i < konser.getPenampilanKonser().size(); i++) {
+                konser.getPenampilanKonser().get(i).setKonser(konser);
+                System.out.println(konser.getPenampilanKonser().get(i).getKonser().getId());
             }
+
         }
         konserService.addKonser(konser);
 //        penampilanService.addPenampilan(konser.getPenampilan())
@@ -92,10 +101,10 @@ public class KonserController {
             @ModelAttribute KonserModel konser,
             Model model
     ) {
-        if (konser.getPenampilan() == null || konser.getPenampilan().size() == 0) {
-            konser.setPenampilan(new ArrayList<>());
+        if (konser.getPenampilanKonser() == null || konser.getPenampilanKonser().size() == 0) {
+            konser.setPenampilanKonser(new ArrayList<>());
         }
-        konser.getPenampilan().add(new PenampilanModel());
+        konser.getPenampilanKonser().add(new PenampilanModel());
         List<IdolModel> listIdol = idolService.getListIdol();
 
         model.addAttribute("konser", konser);
@@ -111,7 +120,7 @@ public class KonserController {
             Model model
     ){
         final  Integer rowId = Integer.valueOf(row);
-        konser.getPenampilan().remove(rowId.intValue());
+        konser.getPenampilanKonser().remove(rowId.intValue());
 
 //        List<IdolModel> listIdol = idolService.getListIdol();
         List<IdolModel> listIdol = idolService.getListIdol();
@@ -127,7 +136,7 @@ public class KonserController {
     public String viewDetailKonserPage(@RequestParam(value = "id") String id, Model model) {
         Long idParsed = Long.parseLong(id);
         KonserModel konser = konserService.getKonserById(idParsed);
-        List<PenampilanModel> listPenampilan = konser.getPenampilan();
+        List<PenampilanModel> listPenampilan = konser.getPenampilanKonser();
         model.addAttribute("listPenampilan", listPenampilan);
         model.addAttribute("konser", konser);
         return "view-konser";

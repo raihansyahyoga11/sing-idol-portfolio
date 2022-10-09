@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.persistence.criteria.Fetch;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigInteger;
@@ -42,8 +43,8 @@ public class IdolModel {
     @Column(name = "asal_negara", nullable = false)
     private String asalNegara;
 
-    @OneToMany(mappedBy = "idIdol")
-    List<PenampilanModel> penampilan;
+    @OneToMany(mappedBy = "idol", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    List<PenampilanModel> penampilanKonser;
 
 
 }

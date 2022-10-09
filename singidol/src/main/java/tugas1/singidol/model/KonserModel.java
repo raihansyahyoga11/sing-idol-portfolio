@@ -43,10 +43,10 @@ public class KonserModel {
     @Column(name = "tempat", nullable = false)
     private String tempat;
 
-    @OneToMany(mappedBy = "idKonser")
-    private List<PenampilanModel> penampilan;
+    @OneToMany(mappedBy = "konser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PenampilanModel> penampilanKonser;
 
-    @OneToMany(mappedBy = "idKonser")
+    @OneToMany(mappedBy = "konser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<TiketModel> listTiket;
 
 //    public String getNamaKonser() {

@@ -39,12 +39,12 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="penampilan, iterationStatusP: ${listPenampilan}"
+                            <tr th:each="penampilanKonser, iterationStatusP: ${listPenampilan}"
                                 th:style="${iterationStatusP.even} ? 'font-weight:bold;'">
-                                <td th:text="${penampilan.waktu}"></td>
-                                <td th:text="${penampilan.namaIdol}"></td>
+                                <td th:text="${penampilanKonser.jamMulaiTampil}"></td>
+                                <td th:text="${penampilanKonser.idol.namaIdol}"></td>
                                 <td>
-                                    <a class="btn btn-primary"  th:href="@{/idol/view(id=${idol.id})}">Detail
+                                    <a class="btn btn-primary"  th:href="@{/idol/view(id=${penampilanKonser.idol.id})}">Detail
                                 Idol</a>
                                 </td>
                             </tr>

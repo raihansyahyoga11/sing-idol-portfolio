@@ -25,18 +25,18 @@ import java.util.List;
 public class PenampilanModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_idol", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private IdolModel idIdol;
+    IdolModel idol;
 
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "id_konser", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private KonserModel idKonser;
+    KonserModel konser;
 
     @NotNull
     @Column(name = "jam_mulai_tampil", nullable = false)

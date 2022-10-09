@@ -38,6 +38,6 @@ public class TipeModel {
     @Column(name = "deskripsi_tipe", nullable = false)
     private String deskripsiTipe;
 
-    @OneToMany(mappedBy = "idTipe")
+    @OneToMany(mappedBy = "tipe" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<TiketModel> listTiket;
 }

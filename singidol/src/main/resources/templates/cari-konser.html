@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <title>Cari Konser</title>
+
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<h1 class="text-center base-color">Cari Konser</h1>
+
+<form th:action="@{/carikonser}" method = "GET">
+  <div class = "container-fluid">
+    Pendapatan Minimal: <br>
+    <input  class="form-control" type="number" min="0" name="pendapatan" th:value="${pendapatan}"/>
+    <br><br>
+
+    Idol: <br>
+    <select  class="form-control" name="idol">
+      <option th:each="m : ${listIdol}"
+              th:value="${m.id}"
+              th:text="${m.namaIdol}"
+              th:selected="${m.id == selectedIdol}"></option>
+    </select>
+    <br><br>
+    <button class="btn btn-primary" type="submit">Cari</button>
+    <button class="btn btn-danger"  ><a href="/konser/viewall"  style="color:white" >
+      Kembali
+    </a></button>
+
+    <div th:if="${hasKonser}">
+      <h1 class="text-center base-color">Daftar Konser</h1>
+      <table class="table center">
+        <thead>
+        <tr>
+          <th>No</th>
+          <th>Konser</th>
+          <th>Pendapatan</th>
+          <th>Detail</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="konser, iterationStatus : ${listKonser}">
+          <td th:text="${iterationStatus.count}"></td>
+          <td th:text="${konser.namaKonser}"></td>
+          <td th:text="${konser.totalPendapatan}"></td>
+
+          <td><a th:href="@{/konser/}+${konser.id}" class="btn btn-primary">Detail</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div th:unless="${hasKonser}">
+      <h1 th:text="'Tidak ada hasil!!'"></h1>
+    </div>
+
+  </div>
+</form>
+
+
+
+
+</form>
+</body>
+</html>

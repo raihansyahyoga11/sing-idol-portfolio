@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <title>Tambah Tiket</title>
+
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+
+<div class="container">
+  <div class="card m-4 p-4">
+    <div class="card-body">
+      <div class="justify-content-center">
+        <h2>Tambah Tiket</h2>
+        <br>
+        <form th:action="@{/tiket/pesan}" th:object="${tiket}" method="POST">
+          Konser : <br>
+          <select class="form-control" name="konser" th:field="*{konser.id}">
+            <option th:each="a : ${listKonser}"
+                    th:value="${a.id}"
+                    th:text="${a.namaKonser}"></option>
+          </select>
+
+          Nama Pemesan : <br>
+          <input required minlength="3" class="form-control" th:value="*{namaLengkap}" type="text" name="namaLengkap" />
+          <br><br>
+          Tanggal Lahir : <br>
+
+          <input class="form-control" type = "datetime-local" name="tanggalLahir" th:value="*{tanggalLahir}"/>
+          <br><br>
+          Email : <br>
+
+          <input class="form-control" type = "email" name="email" th:value="*{email}"/>
+          <br><br>
+
+          Tipe Tiket : <br>
+          <select class="form-control" name="tipe" th:field="*{tipe.id}">
+            <option th:each="a : ${listTipe}"
+                    th:value="${a.id}"
+                    th:text="${a.nama}"></option>
+          </select>
+
+          <button class="btn btn-primary" type="submit" name="save">Submit</button>
+          <a class="btn btn-primary" href="/">Home</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</form>
+</body>
+</html>

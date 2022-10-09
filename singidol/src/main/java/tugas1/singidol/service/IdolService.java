@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface IdolService {
     List<IdolModel> getListIdol();
+
+    void addIdol(IdolModel idol);
+
+    IdolModel findIdolById(Long id);
 }

@@ -44,7 +44,7 @@
                                 <td th:text="${penampilanKonser.jamMulaiTampil}"></td>
                                 <td th:text="${penampilanKonser.idol.namaIdol}"></td>
                                 <td>
-                                    <a class="btn btn-primary"  th:href="@{/idol/view(id=${penampilanKonser.idol.id})}">Detail
+                                    <a class="btn btn-primary"  th:href="@{/idol/} + ${penampilanKonser.idol.id}">Detail
                                 Idol</a>
                                 </td>
                             </tr>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>View All Idol</title>
+
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+
+<div class="card m-4 p-4">
+    <div class="card-body">
+        <div class="justify-content-center">
+            <a th:href="@{/idol/tambah}" class="mx-2 btn btn-primary">+ Tambah Idol</a>
+    <div th:if="${hasIdol}">
+        <h2 class="text-center base-color">Daftar Idol</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama</th>
+                <th>Jumlah Anggota</th>
+                <th>Detail</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="idol, iterationStatus : ${listIdol}">
+                <td th:text="${iterationStatus.count}"></td>
+                <td th:text="${idol.namaIdol}"></td>
+                <td th:text="${idol.jumlahAnggota}"></td>
+
+                <td><a th:href="@{/idol/}+${idol.id}" class="btn btn-primary">Detail</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:unless="${hasIdol}">
+        <h1 th:text="'Belum ada Idol, silahkan tambahkan Idol terlebih dahulu!'"></h1>
+    </div>
+</div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,5 +1,7 @@
 package tugas1.singidol.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import tugas1.singidol.model.PenampilanModel;
 import tugas1.singidol.model.KonserModel;
 import tugas1.singidol.model.IdolModel;
@@ -44,6 +46,7 @@ public class KonserController {
     public String listKonser(Model model) {
         List<KonserModel> listKonser = konserService.getListKonser();
         model.addAttribute("listKonser", listKonser);
+        model.addAttribute("hasKonser", listKonser.size() > 0);
         return "viewall-konser";
     }
 
@@ -75,6 +78,10 @@ public class KonserController {
 //        for (PenampilanModel penampilan : konser.getPenampilan()) {
 //            System.out.println(penampilan.getIdIdol().getNamaIdol());
 //        }
+        if (konser.getWaktu()== null) {
+            model.addAttribute("failed", "Anda harus mengisi field dengan lengkap");
+            return "error/failed";
+        }
         if (konser.getPenampilanKonser() == null) {
 
             konser.setPenampilanKonser(new ArrayList<>());
@@ -83,8 +90,11 @@ public class KonserController {
         else {
             System.out.println("else");
             for (int i = 0; i < konser.getPenampilanKonser().size(); i++) {
+                if (konser.getPenampilanKonser().get(i).getJamMulaiTampil()== null) {
+                    model.addAttribute("failed", "Anda harus mengisi jam mulai tampil dari idol");
+                    return "error/failed";
+                }
                 konser.getPenampilanKonser().get(i).setKonser(konser);
-                System.out.println(konser.getPenampilanKonser().get(i).getKonser().getId());
             }
 
         }
@@ -132,13 +142,127 @@ public class KonserController {
 
     }
 
-    @GetMapping("/konser/view")
-    public String viewDetailKonserPage(@RequestParam(value = "id") String id, Model model) {
-        Long idParsed = Long.parseLong(id);
-        KonserModel konser = konserService.getKonserById(idParsed);
+
+
+    @GetMapping("/konser/view/{id}")
+    public String viewDetailKonserPage(@PathVariable Long id, Model model) {
+        KonserModel konser = konserService.getKonserById(id);
+        if (konser == null) {
+            model.addAttribute("failed", "Konser tersebut tidak ada");
+            return "error/failed";
+        }
         List<PenampilanModel> listPenampilan = konser.getPenampilanKonser();
         model.addAttribute("listPenampilan", listPenampilan);
         model.addAttribute("konser", konser);
         return "view-konser";
+    }
+
+
+
+    @GetMapping("/konser/update/{id}")
+    public String updateKonserFormPage(@PathVariable String id, Model model) {
+        Long idParsed = Long.parseLong(id);
+        KonserModel konser = konserService.getKonserById(idParsed);
+        List<IdolModel> listIdol = idolService.getListIdol();
+
+
+        model.addAttribute("listIdolExisting", listIdol);
+//        for (PenampilanModel penampilanKonser : konser.getPenampilanKonser()) {
+//            penampilanService.deletePenampilanKonser(penampilanKonser);
+//            konser.getPenampilanKonser().remove(penampilanKonser);
+//        }
+
+        model.addAttribute("konser", konser);
+
+        return "form-update-konser";
+    }
+
+    @PostMapping("/konser/update")
+    public String updateKonserSubmitPage(@ModelAttribute KonserModel konser, Model model) {
+        System.out.println("post update konser");
+        Long id = konser.getId();
+
+        if (konser.getPenampilanKonser() == null) {
+            konser.setPenampilanKonser(new ArrayList<>());
+        }
+
+        else {
+            penampilanService.emptyPenampilanKonser(konserService.getKonserById(id));
+            for (int i = 0; i < konser.getPenampilanKonser().size(); i++) {
+                if (konser.getPenampilanKonser().get(i).getJamMulaiTampil()== null) {
+                    model.addAttribute("failed", "Anda harus mengisi jam mulai tampil dari idol");
+                    return "error/failed";
+                }
+                konser.getPenampilanKonser().get(i).setKonser(konser);
+            }
+        }
+        KonserModel updatedKonser = konserService.updateKonser(konser);
+
+
+        model.addAttribute("id", updatedKonser.getId());
+
+        return "update-konser";
+    }
+
+    @PostMapping(value = "/konser/update", params = {"addRow"})
+    private String addRowUpdatePenampilanMultiple(
+            @ModelAttribute KonserModel konser,
+            Model model
+    ) {
+        if (konser.getPenampilanKonser() == null || konser.getPenampilanKonser().size() == 0) {
+            konser.setPenampilanKonser(new ArrayList<>());
+        }
+        konser.getPenampilanKonser().add(new PenampilanModel());
+        List<IdolModel> listIdol = idolService.getListIdol();
+
+        model.addAttribute("konser", konser);
+        model.addAttribute("listIdolExisting", listIdol);
+
+        return "form-update-konser";
+    }
+
+    @PostMapping(value = "konser/update", params = {"deleteRow"})
+    public String deleteRowUpdatePenampilanMultiple(
+            @ModelAttribute KonserModel konser,
+            @RequestParam("deleteRow") Integer row,
+            Model model
+    ){
+        final  Integer rowId = Integer.valueOf(row);
+        konser.getPenampilanKonser().remove(rowId.intValue());
+
+//        List<IdolModel> listIdol = idolService.getListIdol();
+        List<IdolModel> listIdol = idolService.getListIdol();
+
+        model.addAttribute("konser", konser);
+        model.addAttribute("listIdolExisting", listIdol);
+
+        return "form-update-konser";
+
+    }
+
+    @GetMapping("/konser/cari")
+    public String cariForm(Model model){
+        List<IdolModel> listModel = idolService.getListIdol();
+        model.addAttribute("listIdol", listModel);
+        return "form-cari-konser";
+    }
+
+    @GetMapping("/carikonser")
+    public String cariHasil(
+            @RequestParam(value = "pendapatan", required = false) Float pendapatan,
+            @RequestParam(value = "idol", required = false) Integer idIdol,
+            Model model){
+        if(pendapatan == null || idIdol ==null){
+            model.addAttribute("failed", "Anda harus mengisi field pendapatan atau setidaknya mendaftarkan 1 Idol");
+            return "error/failed";
+        }
+        List<KonserModel> listKonser = konserService.filterKonser(pendapatan, idIdol);
+        List<IdolModel> listModel = idolService.getListIdol();
+        model.addAttribute("listIdol", listModel);
+        model.addAttribute("hasKonser", listKonser.size() > 0);
+        model.addAttribute("listKonser", listKonser);
+        model.addAttribute("pendapatan", Math.round(pendapatan));
+        model.addAttribute("selectedIdol", idIdol);
+        return "cari-konser";
     }
 }

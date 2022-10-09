@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>View All Tiket</title>
+
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+
+<div class="card m-4 p-4">
+    <div class="card-body">
+        <div class="justify-content-center">
+    <a class="mx-2 btn btn-primary " th:href="@{/tiket/pesan}">+ Beli Tiket</a>
+    <div th:if="${hasTiket}">
+        <h2 class="text-center base-color">Daftar tiket</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>No</th>
+                <th>No Tiket</th>
+                <th>Konser</th>
+                <th>Tipe Tiket</th>
+                <th>Aksi</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="tiket, iterationStatus : ${listTiket}">
+                <td th:text="${iterationStatus.count}"></td>
+                <td th:text="${tiket.nomorTiket}"></td>
+
+                <td th:text="${tiket.konser.namaKonser}"></td>
+                <td th:text="${tiket.tipe.nama}"></td>
+                <td><a class="btn btn-primary" th:href="@{/tiket/}+${tiket.id}">Detail</a></td>
+                <td><a class="btn btn-danger" th:href="@{/tiket/hapus/}+${tiket.id}">Hapus</a></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:unless="${hasTiket}">
+        <h1 th:text="'Belum ada Tiket, silahkan tambahkan tiket terlebih dahulu!'"></h1>
+    </div>
+</div>
+    </div>
+</div>
+</body>
+</html>

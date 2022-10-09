@@ -7,7 +7,9 @@ import tugas1.singidol.repository.IdolDb;
 import tugas1.singidol.repository.KonserDb;
 
 import javax.transaction.Transactional;
+import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -20,5 +22,16 @@ public class IdolServiceImpl implements IdolService {
     @Override
     public List<IdolModel> getListIdol() {
         return idolDb.findAll();
+    }
+
+    @Override
+    public void addIdol(IdolModel idol) {
+        idolDb.save(idol);
+    }
+
+    @Override
+    public IdolModel findIdolById(Long id) {
+        Optional<IdolModel> idolOpt = idolDb.findById(id);
+        return idolOpt.isEmpty() ? null : idolOpt.get();
     }
 }

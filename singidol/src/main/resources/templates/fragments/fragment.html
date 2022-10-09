@@ -17,8 +17,8 @@
   </head>
 </head>
 <body>
-<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
-  <a href="/" class="navbar-brand font-weight-bold text-primary">SINGIDOL</a>
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-primary">
+  <a href="/" class="navbar-brand font-weight-bold text-light">SINGIDOL</a>
   <button class="navbar-toggler"
           type="button"
           data-toggle="collapse"
@@ -31,28 +31,27 @@
   </button>
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav mr-auto">
-      <a th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}"
-         th:href="@{/}" class="nav-item nav-link ">
+      <a th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'font-weight-bold':''}"
+         th:href="@{/}" class="nav-item nav-link text-light  ">
         Beranda <span class="sr-only">(current)</span>
       </a>
-      <a th:classappend="${#httpServletRequest.getRequestURI().startsWith('/konser') ? 'active':''}"
-         th:href="@{/konser/viewall}" class="nav-item nav-link ">
+      <a th:classappend="${#httpServletRequest.getRequestURI().startsWith('/konser') ? 'font-weight-bold':''}"
+         th:href="@{/konser/viewall}" class="nav-item nav-link text-light">
         Konser<span class="sr-only">(current)</span>
       </a>
-      <a th:classappend="${#httpServletRequest.getRequestURI().startsWith('/tiket') ? 'active':''}"
-         th:href="@{/ticket/viewall}" class="nav-item nav-link ">
+      <a th:classappend="${#httpServletRequest.getRequestURI().startsWith('/tiket') ? 'font-weight-bold':''}"
+         th:href="@{/tiket/viewall}" class="nav-item nav-link text-light">
         Tiket<span class="sr-only">(current)</span>
       </a>
-      <a th:classappend="${#httpServletRequest.getRequestURI().startsWith('/idol') ? 'active':''}"
-         th:href="@{/idol/viewall}" class="nav-item nav-link ">
+      <a th:classappend="${#httpServletRequest.getRequestURI().startsWith('/idol') ? 'font-weight-bold':''}"
+         th:href="@{/idol/viewall}" class="nav-item nav-link text-light">
         Idol<span class="sr-only">(current)</span>
       </a>
+      <a th:classappend="${#httpServletRequest.getRequestURI().startsWith('/bonus') ? 'font-weight-bold':''}"
+         th:href="@{/bonus}" class="nav-item nav-link text-light">
+        Bonus<span class="sr-only">(current)</span>
+      </a>
     </ul>
-    <form class="form-inline my-2 my-lg-0" th:action="@{/course/view}" method="get">
-      <input class="form-control mr-sm-2" type="search"
-             name="code" placeholder="Code Course" aria-label="Search">
-      <button type="submit">Search</button>
-    </form>
   </div>
 </nav>
 </body>

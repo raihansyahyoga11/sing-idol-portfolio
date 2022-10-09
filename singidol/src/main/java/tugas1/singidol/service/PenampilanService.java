@@ -7,5 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PenampilanService {
-//    void addPenampilan(List<PenampilanModel> penampilan);
+//
+
+    void emptyPenampilanKonser(KonserModel konserModel);
 }

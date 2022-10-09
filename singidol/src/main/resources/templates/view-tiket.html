@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <title>Detail Tiket</title>
+
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="container">
+  <div class="card m-4 p-4">
+
+    <div class="card-body">
+      <div class="justify-content-center">
+        <h2 th:text="'Detail Tiket '+${tiket.nomorTiket}">Daftar Konser</h2>
+        <br>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <p class="font-weight-bold"> Nama Konser </p>
+        <p class="font-weight-bold"> Waktu </p>
+        <p class="font-weight-bold"> Tempat </p>
+        <p class="font-weight-bold"> Atas Nama </p>
+        <p class="font-weight-bold"> Email </p>
+        <p class="font-weight-bold"> Tanggal Pembelian </p>
+        <p class="font-weight-bold"> Tipe Tiket </p>
+      </div>
+      <div class="col">
+        <p th:text="': '+${tiket.konser.namaKonser}"> </p>
+        <p th:text="': '+${#temporals.format(tiket.konser.waktu, 'dd-MM-yyyy HH:mm')}"> </p>
+        <p th:text="': '+${tiket.konser.tempat}"></p>
+        <p th:text="': '+${tiket.namaLengkap}"></p>
+        <p th:text="': '+${tiket.email}"></p>
+        <p th:text="': '+${#temporals.format(tiket.tanggalPembelian, 'dd-MM-yyyy HH:mm')}"></p>
+        <p th:text="': '+${tiket.tipe.nama}"></p>
+      </div>
+    </div>
+  </div>
+  <div>
+    <a class="btn btn-primary mt-5 mb-5" href="/tiket/viewall">Kembali</a>
+  </div>
+</div>
+<br>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <title>Detail Idol</title>
+
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<div class="container">
+  <div class="card m-4 p-4">
+
+    <div class="card-body">
+      <div class="justify-content-center">
+  <h2 th:text="'Detail Idol '+${idol.namaIdol}"></h2>
+  <br>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <p class="font-weight-bold"> Nama Idol </p>
+        <p class="font-weight-bold"> Asal Negara </p>
+        <p class="font-weight-bold"> Jumlah Anggota </p>
+        <p class="font-weight-bold"> Tanggal Debut </p>
+      </div>
+      <div class="col">
+        <p th:text="': '+${idol.namaIdol}"> </p>
+        <p th:text="': '+${idol.asalNegara}"> </p>
+
+        <p th:text="': '+${idol.jumlahAnggota}"> </p>
+
+        <p th:text="': '+${#temporals.format(idol.tanggalDebut, 'dd-MM-yyyy')}"> </p>
+      </div>
+    </div>
+  </div>
+  <div>
+    <a class="btn btn-primary mt-5 mb-5" href="/idol/viewall">Kembali</a>
+  </div>
+</div>
+<br>
+    </div>
+  </div>
+</div>
+</body>
+</html>

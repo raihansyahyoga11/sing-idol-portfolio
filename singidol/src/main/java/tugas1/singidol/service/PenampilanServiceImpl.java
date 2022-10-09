@@ -21,4 +21,14 @@ public class PenampilanServiceImpl implements PenampilanService {
 //    public void addPenampilan(List<PenampilanModel> penampilanModel) {
 //        penampilanDb.save(penampilanModel);
 //    };
+
+    @Override
+    public void emptyPenampilanKonser(KonserModel konserModel) {
+        List<PenampilanModel> listPenampilanKonser = penampilanDb.findAll();
+        for (PenampilanModel penampilanKonser: listPenampilanKonser) {
+            if (penampilanKonser.getKonser() == konserModel) {
+                penampilanDb.delete(penampilanKonser);
+            }
+        }
+    }
 }

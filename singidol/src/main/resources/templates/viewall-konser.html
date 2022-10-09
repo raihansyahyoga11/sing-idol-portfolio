@@ -14,10 +14,11 @@
   <div class="card m-4 p-4">
     <div class="card-body">
       <div class="justify-content-center">
+        <div th:if="${hasKonser}">
         <h2>Daftar Konser</h2>
         <br>
 
-        <a class="mx-2 btn btn-primary" th:href="@{/konser/filter}">Filter</a>
+        <a class="mx-2 btn btn-primary" th:href="@{/konser/cari}">Filter</a>
         <a class="mx-2 btn btn-primary" th:href="@{/konser/add}">+Tambah konser</a>
         <br>
         <table class="table">
@@ -36,7 +37,7 @@
             <td th:text="${konser.namaKonser}"></td>
             <td th:text="${konser.totalPendapatan}"></td>
             <td>
-              <a class="btn btn-primary"  th:href="@{/konser/view(id=${konser.id})}">Detail
+              <a class="btn btn-primary"  th:href="@{/konser/view/}+${konser.id}">Detail
                 Konser</a>
             </td>
           </tr>
@@ -48,9 +49,13 @@
         <br>
         <a class="btn btn-primary" href="/">Beranda</a>
       </div>
+
+        <div th:unless="${hasKonser}">
+          <h1 th:text="'Belum ada Konser, silahkan tambahkan Konser terlebih dahulu!'"></h1>
+        </div>
     </div>
   </div>
 </div>
-
+</div>
 </body>
 </html>

@@ -44,7 +44,7 @@ public class TiketController {
 
     @Qualifier("konserServiceImpl")
     @Autowired
-    private KonserService konserServiceService;
+    private KonserService konserService;
 
     @GetMapping("/tiket/viewall")
     public String listTiket(Model model) {
@@ -74,7 +74,7 @@ public class TiketController {
     public String pesanTiketFormPage(Model model){
         TiketModel tiket = new TiketModel();
         List<TipeModel> listTipe = tipeService.getListTipe();
-        List<KonserModel> listKonser = konserServiceService.getListKonser();
+        List<KonserModel> listKonser = konserService.getListKonser();
         model.addAttribute("listTipe", listTipe);
         model.addAttribute("listKonser", listKonser);
         model.addAttribute("tiket", tiket);
@@ -87,7 +87,7 @@ public class TiketController {
             model.addAttribute("failed", "Anda harus mengisi field dengan lengkap");
             return "error/failed";
         }
-        tiket.setKonser(konserServiceService.getKonserById(tiket.getKonser().getId().longValue()));
+        tiket.setKonser(konserService.getKonserById(tiket.getKonser().getId().longValue()));
         tiket.setTipe(tipeService.getTipeById(tiket.getTipe().getId()));
         tiketService.addTiket(tiket);
         model.addAttribute("nomor", tiket.getNomorTiket());

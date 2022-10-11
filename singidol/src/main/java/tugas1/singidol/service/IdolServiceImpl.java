@@ -32,6 +32,11 @@ public class IdolServiceImpl implements IdolService {
     @Override
     public IdolModel findIdolById(Long id) {
         Optional<IdolModel> idolOpt = idolDb.findById(id);
-        return idolOpt.isEmpty() ? null : idolOpt.get();
+        if (idolOpt.isEmpty()) {
+            return null;
+        }
+        else {
+            return idolOpt.get();
+        }
     }
 }

@@ -38,7 +38,12 @@ public class TiketServiceImpl implements TiketService{
     @Override
     public TiketModel getTiketById(Long id) {
         Optional<TiketModel> opt = tiketDb.findById(id);
-        return opt.isEmpty() ? null : opt.get();
+        if (opt.isEmpty()) {
+            return null;
+        }
+        else {
+            return opt.get();
+        }
     }
 
     @Override
@@ -62,15 +67,16 @@ public class TiketServiceImpl implements TiketService{
         int monthToday = localDate.getMonthValue();
         int dateToday = localDate.getDayOfMonth();
 
-        String a = String.format("%2s", tiket.getTanggalLahir().getDayOfMonth()).replace(' ', '0') + String.format("%2s", tiket.getTanggalLahir().getMonthValue()).replace(' ', '0');
-        String b = String.format("%2s", dateToday).replace(' ', '0') + String.format("%2s", monthToday).replace(' ', '0');
+        String hariBulan = String.format("%2s", tiket.getTanggalLahir().getDayOfMonth()).replace(' ', '0')
+                + String.format("%2s", tiket.getTanggalLahir().getMonthValue()).replace(' ', '0');
+        String hariIni = String.format("%2s", dateToday).replace(' ', '0') + String.format("%2s", monthToday).replace(' ', '0');
 
         String res = "";
         String res2 = "";
 
         int x = 0;
-        for (int i = a.length() - 1; i >= 0; i--) {
-            int y = Integer.valueOf(String.valueOf(a.charAt(i))) + Integer.valueOf(String.valueOf(b.charAt(i))) + x;
+        for (int i = hariBulan.length() - 1; i >= 0; i--) {
+            int y = Integer.valueOf(String.valueOf(hariBulan.charAt(i))) + Integer.valueOf(String.valueOf(hariIni.charAt(i))) + x;
 
             if (y >= 10) {
                 res += String.valueOf(y).charAt(1);
@@ -87,7 +93,7 @@ public class TiketServiceImpl implements TiketService{
 
         noTiket += res2;
 
-        String xTemp = "";
+        String hurufDepanKonser = "";
         char[] map = new char[26];
         String abj = "abcdefghijklmnopqrstuvwxyz";
         for (int i = 0; i < abj.length(); i++) {
@@ -96,38 +102,44 @@ public class TiketServiceImpl implements TiketService{
 
         for (int i = 0; i < map.length; i++) {
             if(tiket.getKonser().getNamaKonser().substring(0,1).equalsIgnoreCase(String.valueOf(map[i]))) {
-                xTemp = String.format("%2s", String.valueOf(i+1)).replace(' ', '0');
+                hurufDepanKonser = String.format("%2s",
+                        String.valueOf(i+1)).replace(' ', '0');
             }
         }
 
-        noTiket += xTemp;
+        noTiket += hurufDepanKonser;
 
-        String tipeSimp = "";
-        if(tiket.getTipe().getNama().equalsIgnoreCase("vip")) {
-            tipeSimp =  "VIP";
-        } else if (tiket.getTipe().getNama().equalsIgnoreCase("Platinum")) {
-            tipeSimp = "PLT";
-        }  else if (tiket.getTipe().getNama().equalsIgnoreCase("GOLD")) {
-            tipeSimp = "GLD";
+        String tipeTiketSimpan = "";
+        if(tiket.getTipe().getNama().equals("vip")) {
+            tipeTiketSimpan =  "VIP";
+        } else if (tiket.getTipe().getNama().equals("platinum")) {
+            tipeTiketSimpan = "PLT";
+        }  else if (tiket.getTipe().getNama().equals("gold")) {
+            tipeTiketSimpan = "GLD";
         } else {
-            tipeSimp = "SLV";
+            tipeTiketSimpan = "SLV";
         }
-        noTiket += tipeSimp;
+
+
+        noTiket += tipeTiketSimpan;
         noTiket += getRandomizedChar();
 
         tiket.setNomorTiket(noTiket);
         tiket.setTanggalPembelian(LocalDateTime.now());
+
         KonserModel konser = konserDb.findById(tiket.getKonser().getId()).get();
+
         konser.setTotalPendapatan(konser.getTotalPendapatan() + (tiket.getTipe().getHarga()));
         konserDb.save(konser);
         tiketDb.save(tiket);
     }
 
-    public void hapusTiket(TiketModel tiketModel) {
-        KonserModel konser = konserDb.findById(tiketModel.getKonser().getId()).get();
-        konser.setTotalPendapatan(konser.getTotalPendapatan() - (tiketModel.getTipe().getHarga()));
+    public void hapusTiket(TiketModel tiketHarga) {
+        KonserModel konser = konserDb.findById(tiketHarga.getKonser().getId()).get();
+
+        konser.setTotalPendapatan(konser.getTotalPendapatan() - (tiketHarga.getTipe().getHarga()));
         konserDb.save(konser);
-        tiketDb.delete(tiketModel);
+        tiketDb.delete(tiketHarga);
     }
 
 

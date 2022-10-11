@@ -90,7 +90,7 @@ public class KonserController {
         else {
             System.out.println("else");
             for (int i = 0; i < konser.getPenampilanKonser().size(); i++) {
-                if (konser.getPenampilanKonser().get(i).getJamMulaiTampil()== null) {
+                if (konser.getPenampilanKonser().get(i).getJamMulaiTampil() == null) {
                     model.addAttribute("failed", "Anda harus mengisi jam mulai tampil dari idol");
                     return "error/failed";
                 }
@@ -105,7 +105,6 @@ public class KonserController {
 //        model.addAttribute("success", "Sorry, pengajar tidak berhasil didapatkan");
         return "add-konser";
     }
-
     @PostMapping(value = "/konser/add", params = {"addRow"})
     private String addRowPenampilanMultiple(
             @ModelAttribute KonserModel konser,
@@ -250,7 +249,7 @@ public class KonserController {
     @GetMapping("/carikonser")
     public String cariHasil(
             @RequestParam(value = "pendapatan", required = false) Float pendapatan,
-            @RequestParam(value = "idol", required = false) Integer idIdol,
+            @RequestParam(value = "idol", required = false) Long idIdol,
             Model model){
         if(pendapatan == null || idIdol ==null){
             model.addAttribute("failed", "Anda harus mengisi field pendapatan atau setidaknya mendaftarkan 1 Idol");
@@ -258,6 +257,8 @@ public class KonserController {
         }
         List<KonserModel> listKonser = konserService.filterKonser(pendapatan, idIdol);
         List<IdolModel> listModel = idolService.getListIdol();
+
+
         model.addAttribute("listIdol", listModel);
         model.addAttribute("hasKonser", listKonser.size() > 0);
         model.addAttribute("listKonser", listKonser);

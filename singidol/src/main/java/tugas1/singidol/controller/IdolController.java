@@ -27,6 +27,7 @@ public class IdolController {
     @GetMapping("/idol/viewall")
     private String listIdol(Model model) {
         List<IdolModel> list = idolService.getListIdol();
+
         model.addAttribute("listIdol", list);
         model.addAttribute("hasIdol", list.size()>0);
         return "viewall-idol";

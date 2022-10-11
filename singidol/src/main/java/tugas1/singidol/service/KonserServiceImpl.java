@@ -40,17 +40,18 @@ public class KonserServiceImpl implements KonserService{
 
     @Override
     public KonserModel updateKonser(KonserModel konser) {
-        System.out.println("masuk pak");
         konserDb.save(konser);
         return konser;
     }
 
     @Override
-    public List<KonserModel> filterKonser(Float minPendapatan, Integer idIdol) {
+    public List<KonserModel> filterKonser(Float minPendapatan, Long idIdol) {
+
         List<KonserModel> temp = new ArrayList<>();
         List<KonserModel> listKonser = konserDb.findAll();
+
         for (KonserModel konser: listKonser) {
-            if (konser.getTotalPendapatan().intValue() >= minPendapatan) {
+            if (konser.getTotalPendapatan() >= minPendapatan) {
                 for (PenampilanModel penampilanModel: konser.getPenampilanKonser()) {
                     if (penampilanModel.getIdol().getId().intValue() == idIdol) {
                         temp.add(konser);

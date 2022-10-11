@@ -14,6 +14,6 @@ public interface KonserService {
 
     KonserModel updateKonser(KonserModel konser);
 
-    List<KonserModel> filterKonser(Float minPendapatan, Integer idIdol);
+    List<KonserModel> filterKonser(Float minPendapatan, Long idIdol);
 
 }

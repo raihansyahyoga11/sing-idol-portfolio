@@ -25,7 +25,7 @@
     </select>
     <br><br>
     <button class="btn btn-primary" type="submit">Cari</button>
-    <button class="btn btn-danger"  ><a href="/konser/viewall"  style="color:white" >
+    <button class="btn btn-danger"  ><a href="/konser"  style="color:white" >
       Kembali
     </a></button>
 
@@ -46,7 +46,7 @@
           <td th:text="${konser.namaKonser}"></td>
           <td th:text="${konser.totalPendapatan}"></td>
 
-          <td><a th:href="@{/konser/view/}+${konser.id}" class="btn btn-primary">Detail</a></td>
+          <td><a th:href="@{/konser/}+${konser.id}" class="btn btn-primary">Detail</a></td>
         </tr>
         </tbody>
       </table>

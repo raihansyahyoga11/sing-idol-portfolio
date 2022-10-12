@@ -15,7 +15,7 @@
             <div class="justify-content-center">
                 <h2>Tambah Konser</h2>
                 <br>
-                <form th:action="@{/konser/add}" th:object="${konser}" method="POST">
+                <form th:action="@{/konser/tambah}" th:object="${konser}" method="POST">
                     Nama Konser: <br>
                     <input required class="form-control" type="text" th:field="*{namaKonser}"/>
                     <br><br>
@@ -63,7 +63,7 @@
                         </tbody>
                     </table>
                     <button class="btn btn-primary" type="submit" name="save">Submit</button>
-                    <a class="btn btn-primary" href="/">Home</a>
+                    <a class="btn btn-primary" href="/konser">Kembali</a>
                 </form>
             </div>
         </div>

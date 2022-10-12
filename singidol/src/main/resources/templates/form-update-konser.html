@@ -13,7 +13,7 @@
             <div class="justify-content-center">
                 <h2>Update Konser</h2>
                 <br>
-                <form th:action="@{/konser/update}" th:object="${konser}" method="POST">
+                <form th:action="@{/konser/ubah}" th:object="${konser}" method="POST">
 
                     <input type="hidden" th:field="*{id}" />
                     <input type="hidden" th:field="*{listTiket}" />
@@ -64,7 +64,7 @@
                         </tbody>
                     </table>
                     <button class="btn btn-primary" type="submit" name="save">Submit</button>
-                    <a class="btn btn-primary" href="/konser/viewall">Kembali</a>
+                    <a class="btn btn-primary" href="/konser">Kembali</a>
                 </form>
             </div>
         </div>

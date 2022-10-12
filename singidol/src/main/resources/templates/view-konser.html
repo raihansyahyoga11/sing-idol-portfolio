@@ -23,7 +23,7 @@
 <!--                <p th:text="'Tanggal Dimulai: ' + ${#temporals.format(course.tanggalDimulai, 'dd MMMM yyyy HH:mm')}"></p>-->
 
                 <br>
-                <a class="btn btn-primary" th:href="@{/konser/update/} + ${konser.id}">Ubah Konser</a>
+                <a class="btn btn-primary" th:href="@{/konser/ubah/} + ${konser.id}">Ubah Konser</a>
                 <br><br>
                 <div class="col">
                     <br>
@@ -53,7 +53,7 @@
                     </div>
                     <br>
                 </div>
-                <a class="btn btn-primary" href="/konser/viewall">Kembali</a>
+                <a class="btn btn-primary" href="/konser">Kembali</a>
             </div>
         </div>
     </div>

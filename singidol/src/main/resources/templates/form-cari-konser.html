@@ -18,9 +18,9 @@
 
     Idol: <br>
     <select class="form-control" name="idol">
-      <option th:each="m : ${listIdol}"
-              th:value="${m.id}"
-              th:text="${m.namaIdol}"></option>
+      <option th:each="idolIterate : ${listIdol}"
+              th:value="${idolIterate.id}"
+              th:text="${idolIterate.namaIdol}"></option>
     </select>
     <br><br>
     <button class="btn btn-primary" type="submit">Cari</button>

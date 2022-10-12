@@ -49,7 +49,7 @@ public class KonserController {
     @Autowired
     private TipeService tipeService;
 
-    @GetMapping("/konser/viewall")
+    @GetMapping("/konser")
     public String listKonser(Model model) {
         List<KonserModel> listKonser = konserService.getListKonser();
         model.addAttribute("listKonser", listKonser);
@@ -57,7 +57,7 @@ public class KonserController {
         return "viewall-konser";
     }
 
-    @GetMapping("/konser/add")
+    @GetMapping("/konser/tambah")
     public String addKonserFormPage(Model model){
         KonserModel konser = new KonserModel();
         List<IdolModel> listIdol = idolService.getListIdol();
@@ -76,15 +76,8 @@ public class KonserController {
     }
 
     // no 4
-    @PostMapping(value = "/konser/add", params = {"save"})
+    @PostMapping(value = "/konser/tambah", params = {"save"})
     public String addKonserSubmit(@ModelAttribute KonserModel konser, Model model){
-//        if (course.getListPengajar() == null) {
-//            course.setListPengajar(new ArrayList<>());
-//        }
-//        System.out.println(konser.toString());
-//        for (PenampilanModel penampilan : konser.getPenampilan()) {
-//            System.out.println(penampilan.getIdIdol().getNamaIdol());
-//        }
         if (konser.getWaktu()== null) {
             model.addAttribute("failed", "Anda harus mengisi field dengan lengkap");
             return "error/failed";
@@ -112,7 +105,7 @@ public class KonserController {
 //        model.addAttribute("success", "Sorry, pengajar tidak berhasil didapatkan");
         return "add-konser";
     }
-    @PostMapping(value = "/konser/add", params = {"addRow"})
+    @PostMapping(value = "/konser/tambah", params = {"addRow"})
     private String addRowPenampilanMultiple(
             @ModelAttribute KonserModel konser,
             Model model
@@ -129,7 +122,7 @@ public class KonserController {
         return "form-add-konser";
     }
 
-    @PostMapping(value = "konser/add", params = {"deleteRow"})
+    @PostMapping(value = "/konser/tambah", params = {"deleteRow"})
     public String deleteRowPenampilanMultiple(
             @ModelAttribute KonserModel konser,
             @RequestParam("deleteRow") Integer row,
@@ -150,7 +143,7 @@ public class KonserController {
 
 
 
-    @GetMapping("/konser/view/{id}")
+    @GetMapping("/konser/{id}")
     public String viewDetailKonserPage(@PathVariable Long id, Model model) {
         KonserModel konser = konserService.getKonserById(id);
         if (konser == null) {
@@ -165,7 +158,7 @@ public class KonserController {
 
 
 
-    @GetMapping("/konser/update/{id}")
+    @GetMapping("/konser/ubah/{id}")
     public String updateKonserFormPage(@PathVariable String id, Model model) {
         Long idParsed = Long.parseLong(id);
         KonserModel konser = konserService.getKonserById(idParsed);
@@ -183,9 +176,8 @@ public class KonserController {
         return "form-update-konser";
     }
 
-    @PostMapping("/konser/update")
+    @PostMapping("/konser/ubah")
     public String updateKonserSubmitPage(@ModelAttribute KonserModel konser, Model model) {
-        System.out.println("post update konser");
         Long id = konser.getId();
 
         if (konser.getPenampilanKonser() == null) {
@@ -211,7 +203,7 @@ public class KonserController {
         return "update-konser";
     }
 
-    @PostMapping(value = "/konser/update", params = {"addRow"})
+    @PostMapping(value = "/konser/ubah", params = {"addRow"})
     private String addRowUpdatePenampilanMultiple(
             @ModelAttribute KonserModel konser,
             Model model
@@ -228,7 +220,7 @@ public class KonserController {
         return "form-update-konser";
     }
 
-    @PostMapping(value = "konser/update", params = {"deleteRow"})
+    @PostMapping(value = "/konser/ubah", params = {"deleteRow"})
     public String deleteRowUpdatePenampilanMultiple(
             @ModelAttribute KonserModel konser,
             @RequestParam("deleteRow") Integer row,
@@ -275,14 +267,14 @@ public class KonserController {
         return "cari-konser";
     }
 
-    @GetMapping("/konsertipe")
+    @GetMapping("/bonus/konser")
     public String FormBonusPage(Model model){
         List<TipeModel> listTipe = tipeService.getListTipe();
         model.addAttribute("listTipe", listTipe);
         return "form-bonus";
 
     }
-    @GetMapping("/konsertipe/view")
+    @GetMapping("bonus/konser/top")
     public String KonserTipePalingBanyak(
             @RequestParam(value = "nama", required = false) String nama,
             Model model){

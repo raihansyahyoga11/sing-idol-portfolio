@@ -46,7 +46,7 @@ public class TiketController {
     @Autowired
     private KonserService konserService;
 
-    @GetMapping("/tiket/viewall")
+    @GetMapping("/tiket")
     public String listTiket(Model model) {
         List<TiketModel> listTiket = tiketService.getAllTiket();
         model.addAttribute("listTiket", listTiket);

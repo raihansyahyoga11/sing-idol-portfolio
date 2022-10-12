@@ -19,7 +19,7 @@
         <br>
 
         <a class="mx-2 btn btn-primary" th:href="@{/konser/cari}">Filter</a>
-        <a class="mx-2 btn btn-primary" th:href="@{/konser/add}">+Tambah konser</a>
+        <a class="mx-2 btn btn-primary" th:href="@{/konser/tambah}">+Tambah konser</a>
         <br>
         <table class="table">
           <thead>
@@ -37,7 +37,7 @@
             <td th:text="${konser.namaKonser}"></td>
             <td th:text="${konser.totalPendapatan}"></td>
             <td>
-              <a class="btn btn-primary"  th:href="@{/konser/view/}+${konser.id}">Detail
+              <a class="btn btn-primary"  th:href="@{/konser/}+${konser.id}">Detail
                 Konser</a>
             </td>
           </tr>

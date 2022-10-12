@@ -10,7 +10,7 @@
 <nav th:replace="fragments/fragment :: navbar"></nav>
 <h1 class="text-center base-color">Cari Tipe Konser</h1>
 
-<form th:action="@{/konsertipe/view}" method = "GET">
+<form th:action="@{/bonus/konser/top}" method = "GET">
   <div class = "container-fluid">
     <!--    <form th:action="@{/tiket/pesan}" th:object="${tiket}" method="POST">-->
     Tipe Tiket : <br>
@@ -25,7 +25,7 @@
 
     <br><br>
 
-    <button class="btn btn-danger"  ><a href="/konser/viewall"  style="color:white" >
+    <button class="btn btn-danger"  ><a href="/konser"  style="color:white" >
       Kembali
     </a></button>
     <!--    </form>-->
@@ -71,7 +71,7 @@
             <td th:text="${tipeTiket}"></td>
             <td th:text="${konser.get(5)}"></td>
 <!--            <td th:text="${konser.get(3)}"></td>-->
-            <td><a class="btn btn-primary" th:href="@{/konser/view/}+${konser.get(0)}">Detail</a></td>
+            <td><a class="btn btn-primary" th:href="@{/konser/}+${konser.get(0)}">Detail</a></td>
 <!--            <td><a class="btn btn-danger" th:href="@{/tiket/hapus/}+${tiket.id}">Hapus</a></td>-->
 
           </tr>
@@ -79,10 +79,6 @@
         </table>
 <!--      </div>-->
 
-      <div th:unless="${hasKonser}">
-        <h1 th:text="'Tidak ada konser untuk tipe tersebut, silahkan coba cari konser dengan tipe yang lain ya'"></h1>
-
-    </div>
   </div>
       <div th:unless="${hasKonser}">
       <h1 th:text="'Tidak ada konser untuk tipe tersebut, silahkan coba cari konser dengan tipe yang lain ya'"></h1>

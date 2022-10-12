@@ -24,7 +24,7 @@ public class IdolController {
     @Qualifier("idolServiceImpl")
     @Autowired
     private IdolService idolService;
-    @GetMapping("/idol/viewall")
+    @GetMapping("/idol")
     private String listIdol(Model model) {
         List<IdolModel> list = idolService.getListIdol();
 

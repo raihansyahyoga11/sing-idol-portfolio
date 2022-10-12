@@ -56,7 +56,7 @@ public class TiketServiceImpl implements TiketService{
 //    public String
 
     @Override
-    public void addTiket(TiketModel tiket) {
+    public void pesanTiket(TiketModel tiket) {
 
         String nomorTiket = "";
         nomorTiket += tiket.getNamaLengkap().substring(0,3).toUpperCase();
@@ -93,20 +93,7 @@ public class TiketServiceImpl implements TiketService{
 
         nomorTiket += hurufDepanKonser;
 
-        String tipeTiketSimpan = "";
-        if(tiket.getTipe().getNama().equals("vip")) {
-            tipeTiketSimpan =  "VIP";
-        } else if (tiket.getTipe().getNama().equals("platinum")) {
-            tipeTiketSimpan = "PLT";
-        }  else if (tiket.getTipe().getNama().equals("gold")) {
-            tipeTiketSimpan = "GLD";
-        } else {
-            tipeTiketSimpan = "SLV";
-        }
-
-
-        nomorTiket += tipeTiketSimpan;
-
+        nomorTiket += getTipeTiket(tiket);
 
         nomorTiket += getRandomizedChar();
 
@@ -119,6 +106,21 @@ public class TiketServiceImpl implements TiketService{
 
         konserDb.save(konser);
         tiketDb.save(tiket);
+    }
+
+    public String getTipeTiket(TiketModel tiket) {
+        String tipeTiket ="";
+        if(tiket.getTipe().getNama().equals("vip")) {
+            tipeTiket =  "VIP";
+        } else if (tiket.getTipe().getNama().equals("platinum")) {
+            tipeTiket = "PLT";
+        }  else if (tiket.getTipe().getNama().equals("gold")) {
+            tipeTiket= "GLD";
+        } else {
+            tipeTiket = "SLV";
+        }
+        return tipeTiket;
+
     }
 
     public void hapusTiket(TiketModel tiketHarga) {

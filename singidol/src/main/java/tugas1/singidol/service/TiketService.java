@@ -12,7 +12,7 @@ public interface TiketService {
 
     String getRandomizedChar();
 
-    void addTiket(TiketModel tiket);
+    void pesanTiket(TiketModel tiket);
 
     void hapusTiket(TiketModel tiketModel);
 }

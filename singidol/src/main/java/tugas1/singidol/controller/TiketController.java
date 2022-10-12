@@ -51,7 +51,6 @@ public class TiketController {
         List<TiketModel> listTiket = tiketService.getAllTiket();
         model.addAttribute("listTiket", listTiket);
         model.addAttribute("hasTiket", listTiket.size()>0);
-        System.out.println("masuk ke html");
         return "viewall-tiket";
     }
 
@@ -87,9 +86,11 @@ public class TiketController {
             model.addAttribute("failed", "Anda harus mengisi field dengan lengkap");
             return "error/failed";
         }
-        tiket.setKonser(konserService.getKonserById(tiket.getKonser().getId().longValue()));
+        tiket.setKonser(konserService.getKonserById(tiket.getKonser().getId()));
         tiket.setTipe(tipeService.getTipeById(tiket.getTipe().getId()));
-        tiketService.addTiket(tiket);
+
+        tiketService.pesanTiket(tiket);
+
         model.addAttribute("noTiket", tiket.getNomorTiket());
         model.addAttribute("namaKonser", tiket.getKonser().getNamaKonser());
         return "add-tiket";

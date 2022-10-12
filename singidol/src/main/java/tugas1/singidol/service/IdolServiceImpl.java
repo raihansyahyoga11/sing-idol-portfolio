@@ -31,12 +31,12 @@ public class IdolServiceImpl implements IdolService {
 
     @Override
     public IdolModel findIdolById(Long id) {
-        Optional<IdolModel> idolOpt = idolDb.findById(id);
-        if (idolOpt.isEmpty()) {
+        Optional<IdolModel> idolFound = idolDb.findById(id);
+        if (idolFound.isEmpty()) {
             return null;
         }
         else {
-            return idolOpt.get();
+            return idolFound.get();
         }
     }
 }

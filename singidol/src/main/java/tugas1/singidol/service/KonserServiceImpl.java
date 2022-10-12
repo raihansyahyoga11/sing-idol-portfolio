@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tugas1.singidol.repository.KonserDb;
 
+import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -45,22 +46,26 @@ public class KonserServiceImpl implements KonserService{
     }
 
     @Override
-    public List<KonserModel> filterKonser(Float minPendapatan, Long idIdol) {
+    public List<KonserModel> filterKonser(Float pendapatanMinimum, Long idIdol) {
 
-        List<KonserModel> temp = new ArrayList<>();
+        List<KonserModel> tampung = new ArrayList<>();
         List<KonserModel> listKonser = konserDb.findAll();
 
         for (KonserModel konser: listKonser) {
-            if (konser.getTotalPendapatan() >= minPendapatan) {
+            if (konser.getTotalPendapatan() >= pendapatanMinimum) {
                 for (PenampilanModel penampilanModel: konser.getPenampilanKonser()) {
-                    if (penampilanModel.getIdol().getId().intValue() == idIdol) {
-                        temp.add(konser);
+                    if (penampilanModel.getIdol().getId() == idIdol) {
+                        tampung.add(konser);
                         break;
                     }
                 }
             }
         }
-        return temp;
+        return tampung;
+    }
+    public List<ArrayList> konserDiBonus(String namaTipe) {
+        List<ArrayList> konserTertinggiSesuaiTipe = konserDb.bonusKonser(namaTipe);
+        return konserTertinggiSesuaiTipe;
     }
 
 }

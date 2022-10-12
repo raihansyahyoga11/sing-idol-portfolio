@@ -14,11 +14,7 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
-import java.util.Random;
+import java.util.*;
 
 @Service
 @Transactional
@@ -37,12 +33,12 @@ public class TiketServiceImpl implements TiketService{
 
     @Override
     public TiketModel getTiketById(Long id) {
-        Optional<TiketModel> opt = tiketDb.findById(id);
-        if (opt.isEmpty()) {
+        Optional<TiketModel> tiketFound = tiketDb.findById(id);
+        if (tiketFound.isEmpty()) {
             return null;
         }
         else {
-            return opt.get();
+            return tiketFound.get();
         }
     }
 
@@ -56,58 +52,41 @@ public class TiketServiceImpl implements TiketService{
         return sb.toString();
     }
 
+//    @Override
+//    public String
+
     @Override
     public void addTiket(TiketModel tiket) {
 
-        String noTiket = "";
-        noTiket += tiket.getNamaLengkap().substring(0,3).toUpperCase();
+        String nomorTiket = "";
+        nomorTiket += tiket.getNamaLengkap().substring(0,3).toUpperCase();
 
-        Date date = new Date();
-        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate localDate = LocalDate.now();
         int monthToday = localDate.getMonthValue();
         int dateToday = localDate.getDayOfMonth();
 
-        String hariBulan = String.format("%2s", tiket.getTanggalLahir().getDayOfMonth()).replace(' ', '0')
-                + String.format("%2s", tiket.getTanggalLahir().getMonthValue()).replace(' ', '0');
-        String hariIni = String.format("%2s", dateToday).replace(' ', '0') + String.format("%2s", monthToday).replace(' ', '0');
+        String hariBulanLahir = String.format("%2s", tiket.getTanggalLahir().getDayOfMonth()).replace(' ', '0')
+                +
+                String.format("%2s", tiket.getTanggalLahir().getMonthValue()).replace(' ', '0');
+        String hariBulanIni = String.format("%2s", dateToday).replace(' ', '0') + String.format("%2s", monthToday).replace(' ', '0');
 
-        String res = "";
-        String res2 = "";
-
-        int x = 0;
-        for (int i = hariBulan.length() - 1; i >= 0; i--) {
-            int y = Integer.valueOf(String.valueOf(hariBulan.charAt(i))) + Integer.valueOf(String.valueOf(hariIni.charAt(i))) + x;
-
-            if (y >= 10) {
-                res += String.valueOf(y).charAt(1);
-                x += 1;
-            } else {
-                res += String.valueOf(y);
-                x = 0;
-            }
-        }
-
-        for (int i = res.length() - 1; i >= 0; i--) {
-            res2 += res.substring(i,i+1);
-        }
-
-        noTiket += res2;
+        int hariIniInt = Integer.parseInt(hariBulanIni);
+        int hariBulanLahirInt =  Integer.parseInt(hariBulanLahir);
+        int penjumlahanDDMM = hariIniInt+hariBulanLahirInt;
+        String convertPenjumlahan = String.valueOf(penjumlahanDDMM);
+        nomorTiket += convertPenjumlahan;
 
         String hurufDepanKonser = "";
-        char[] map = new char[26];
-        String abj = "abcdefghijklmnopqrstuvwxyz";
-        for (int i = 0; i < abj.length(); i++) {
-            map[i] = abj.charAt(i);
-        }
+        List<String> alphabet = List.of("a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z");
 
-        for (int i = 0; i < map.length; i++) {
-            if(tiket.getKonser().getNamaKonser().substring(0,1).equalsIgnoreCase(String.valueOf(map[i]))) {
+        for (int i = 0; i < alphabet.size(); i++) {
+            if(tiket.getKonser().getNamaKonser().substring(0,1).equalsIgnoreCase(String.valueOf(alphabet.get(i)))) {
                 hurufDepanKonser = String.format("%2s",
                         String.valueOf(i+1)).replace(' ', '0');
             }
         }
 
-        noTiket += hurufDepanKonser;
+        nomorTiket += hurufDepanKonser;
 
         String tipeTiketSimpan = "";
         if(tiket.getTipe().getNama().equals("vip")) {
@@ -121,15 +100,18 @@ public class TiketServiceImpl implements TiketService{
         }
 
 
-        noTiket += tipeTiketSimpan;
-        noTiket += getRandomizedChar();
+        nomorTiket += tipeTiketSimpan;
 
-        tiket.setNomorTiket(noTiket);
+
+        nomorTiket += getRandomizedChar();
+
         tiket.setTanggalPembelian(LocalDateTime.now());
+        tiket.setNomorTiket(nomorTiket);
 
         KonserModel konser = konserDb.findById(tiket.getKonser().getId()).get();
 
         konser.setTotalPendapatan(konser.getTotalPendapatan() + (tiket.getTipe().getHarga()));
+
         konserDb.save(konser);
         tiketDb.save(tiket);
     }

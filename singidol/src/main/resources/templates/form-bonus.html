@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <title>Cari Tipe Konser</title>
+
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<h1 class="text-center base-color">Cari Tipe Konser</h1>
+
+<form th:action="@{/konsertipe/view}" method = "GET">
+  <div class = "container-fluid">
+<!--    <form th:action="@{/tiket/pesan}" th:object="${tiket}" method="POST">-->
+    Tipe Tiket : <br>
+    <select class="form-control" name="nama" >
+      <option th:each="tipe : ${listTipe}"
+              th:value="${tipe.nama}"
+              th:text="${tipe.nama}">
+      </option>
+    </select>
+    <button class="btn btn-primary"  type="submit" >Cari</button>
+
+    <br><br>
+
+    <button class="btn btn-danger"  ><a href="/konser/viewall"  style="color:white" >
+      Kembali
+    </a></button>
+<!--    </form>-->
+  </div>
+
+
+
+
+</form>
+</body>
+</html>

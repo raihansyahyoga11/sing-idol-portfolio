@@ -17,13 +17,9 @@ public class PenampilanServiceImpl implements PenampilanService {
     @Autowired
     PenampilanDb penampilanDb;
 
-//    @Override
-//    public void addPenampilan(List<PenampilanModel> penampilanModel) {
-//        penampilanDb.save(penampilanModel);
-//    };
 
     @Override
-    public void emptyPenampilanKonser(KonserModel konserModel) {
+    public void kosongkanPenampilanKonser(KonserModel konserModel) {
         List<PenampilanModel> listPenampilanKonser = penampilanDb.findAll();
 
         for (PenampilanModel penampilanKonser: listPenampilanKonser) {

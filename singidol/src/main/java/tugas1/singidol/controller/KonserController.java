@@ -22,10 +22,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import tugas1.singidol.service.TipeService;
 
+import java.math.BigInteger;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Controller
 public class KonserController {
@@ -41,6 +44,10 @@ public class KonserController {
     @Qualifier("penampilanServiceImpl")
     @Autowired
     private PenampilanService penampilanService;
+
+    @Qualifier("tipeServiceImpl")
+    @Autowired
+    private TipeService tipeService;
 
     @GetMapping("/konser/viewall")
     public String listKonser(Model model) {
@@ -183,10 +190,11 @@ public class KonserController {
 
         if (konser.getPenampilanKonser() == null) {
             konser.setPenampilanKonser(new ArrayList<>());
+            penampilanService.kosongkanPenampilanKonser(konserService.getKonserById(id));
         }
 
         else {
-            penampilanService.emptyPenampilanKonser(konserService.getKonserById(id));
+            penampilanService.kosongkanPenampilanKonser(konserService.getKonserById(id));
             for (int i = 0; i < konser.getPenampilanKonser().size(); i++) {
                 if (konser.getPenampilanKonser().get(i).getJamMulaiTampil()== null) {
                     model.addAttribute("failed", "Anda harus mengisi jam mulai tampil dari idol");
@@ -265,5 +273,39 @@ public class KonserController {
         model.addAttribute("pendapatan", Math.round(pendapatan));
         model.addAttribute("selectedIdol", idIdol);
         return "cari-konser";
+    }
+
+    @GetMapping("/konsertipe")
+    public String FormBonusPage(Model model){
+        List<TipeModel> listTipe = tipeService.getListTipe();
+        model.addAttribute("listTipe", listTipe);
+        return "form-bonus";
+
+    }
+    @GetMapping("/konsertipe/view")
+    public String KonserTipePalingBanyak(
+            @RequestParam(value = "nama", required = false) String nama,
+            Model model){
+        List<ArrayList> konser = konserService.konserDiBonus(nama);
+        List<TipeModel> listTipe = tipeService.getListTipe();
+        List<ArrayList> konserBonusTerkumpul = new ArrayList<>();
+        if (konser.size() > 0){
+            Long temp= Long.valueOf(konser.get(0).get(5).toString());
+            for(int i=0; i<konser.size();i++) {
+                if(temp == Long.valueOf(konser.get(i).get(5).toString())){
+                    konserBonusTerkumpul.add(konser.get(i));
+                }
+            }
+        }
+        model.addAttribute("hasKonser", konserBonusTerkumpul.size() > 0);
+        model.addAttribute("listTipe", listTipe);
+        model.addAttribute("tipeTiket", nama);
+        model.addAttribute("konser", konserBonusTerkumpul);
+        model.addAttribute("selectedTipe", nama);
+//        for (ArrayList yoga : konserBonusTerkumpul) {
+//            System.out.println(yoga);
+//        }
+        return "bonus";
+
     }
 }

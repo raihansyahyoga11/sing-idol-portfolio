@@ -9,5 +9,6 @@ import java.util.List;
 public interface PenampilanService {
 //
 
-    void emptyPenampilanKonser(KonserModel konserModel);
+    void kosongkanPenampilanKonser(KonserModel konserModel);
+
 }

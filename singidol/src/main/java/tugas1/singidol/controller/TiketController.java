@@ -90,7 +90,7 @@ public class TiketController {
         tiket.setKonser(konserService.getKonserById(tiket.getKonser().getId().longValue()));
         tiket.setTipe(tipeService.getTipeById(tiket.getTipe().getId()));
         tiketService.addTiket(tiket);
-        model.addAttribute("nomor", tiket.getNomorTiket());
+        model.addAttribute("noTiket", tiket.getNomorTiket());
         model.addAttribute("namaKonser", tiket.getKonser().getNamaKonser());
         return "add-tiket";
     }

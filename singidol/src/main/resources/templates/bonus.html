@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <title>View All Bonus</title>
+
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+<h1 class="text-center base-color">Cari Tipe Konser</h1>
+
+<form th:action="@{/konsertipe/view}" method = "GET">
+  <div class = "container-fluid">
+    <!--    <form th:action="@{/tiket/pesan}" th:object="${tiket}" method="POST">-->
+    Tipe Tiket : <br>
+    <select class="form-control" name="nama" >
+      <option th:each="a : ${listTipe}"
+              th:value="${a.nama}"
+              th:text="${a.nama}"
+              th:selected="${a.nama == selectedTipe}">
+      </option>
+    </select>
+    <button class="btn btn-primary"  type="submit" >Cari</button>
+
+    <br><br>
+
+    <button class="btn btn-danger"  ><a href="/konser/viewall"  style="color:white" >
+      Kembali
+    </a></button>
+    <!--    </form>-->
+  </div>
+
+
+
+
+</form>
+
+<div class="card m-4 p-4">
+
+  <div class="card-body">
+    <div class="justify-content-center">
+      <div th:if="${hasKonser}">
+
+      <a class="mx-2 btn btn-primary " th:href="@{/tiket/pesan}">+ Beli Tiket</a>
+<!--      <div th:if="${hasTiket}">-->
+        <h2 class="text-center base-color">Daftar Konser</h2>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>No</th>
+            <th>ID Konser</th>
+            <th>Nama Konser</th>
+            <th>Lokasi</th>
+            <th>Pendapatan</th>
+            <th>Tanggal</th>
+            <th>Tipe tiket yang dicari</th>
+            <th>Jumlah tiket dengan tipe tersebut</th>
+            <th>Detail</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="konser, iterationStatus : ${konser}">
+            <td th:text="${iterationStatus.count}"></td>
+            <td th:text="${konser.get(0)}"></td>
+            <td th:text="${konser.get(1)}"></td>
+            <td th:text="${konser.get(2)}"></td>
+            <td th:text="${konser.get(3)}"></td>
+            <td th:text="${konser.get(4)}"></td>
+            <td th:text="${tipeTiket}"></td>
+            <td th:text="${konser.get(5)}"></td>
+<!--            <td th:text="${konser.get(3)}"></td>-->
+            <td><a class="btn btn-primary" th:href="@{/konser/view/}+${konser.get(0)}">Detail</a></td>
+<!--            <td><a class="btn btn-danger" th:href="@{/tiket/hapus/}+${tiket.id}">Hapus</a></td>-->
+
+          </tr>
+          </tbody>
+        </table>
+<!--      </div>-->
+
+      <div th:unless="${hasKonser}">
+        <h1 th:text="'Tidak ada konser untuk tipe tersebut, silahkan coba cari konser dengan tipe yang lain ya'"></h1>
+
+    </div>
+  </div>
+      <div th:unless="${hasKonser}">
+      <h1 th:text="'Tidak ada konser untuk tipe tersebut, silahkan coba cari konser dengan tipe yang lain ya'"></h1>
+    </div>
+</div>
+</div>
+
+</div>
+
+</body>
+</html>

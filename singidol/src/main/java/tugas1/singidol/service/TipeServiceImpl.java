@@ -22,12 +22,12 @@ public class TipeServiceImpl implements TipeService{
     }
 
     public TipeModel getTipeById(Long id) {
-        Optional<TipeModel> opt = tipeDb.findById(id);
-        if (opt.isEmpty()) {
+        Optional<TipeModel> tipeFound = tipeDb.findById(id);
+        if (tipeFound.isEmpty()) {
             return null;
         }
         else {
-            return opt.get();
+            return tipeFound.get();
         }
     }
 }

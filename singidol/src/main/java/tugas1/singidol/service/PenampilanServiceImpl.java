@@ -20,9 +20,9 @@ public class PenampilanServiceImpl implements PenampilanService {
 
     @Override
     public void kosongkanPenampilanKonser(KonserModel konserModel) {
-        List<PenampilanModel> listPenampilanKonser = penampilanDb.findAll();
+        List<PenampilanModel> listPenampilan = penampilanDb.findAll();
 
-        for (PenampilanModel penampilanKonser: listPenampilanKonser) {
+        for (PenampilanModel penampilanKonser: listPenampilan) {
             if (penampilanKonser.getKonser().equals(konserModel) ) {
                 penampilanDb.delete(penampilanKonser);
             }

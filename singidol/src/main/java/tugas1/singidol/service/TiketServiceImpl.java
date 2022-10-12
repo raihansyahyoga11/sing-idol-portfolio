@@ -62,13 +62,18 @@ public class TiketServiceImpl implements TiketService{
         nomorTiket += tiket.getNamaLengkap().substring(0,3).toUpperCase();
 
         LocalDate localDate = LocalDate.now();
-        int monthToday = localDate.getMonthValue();
-        int dateToday = localDate.getDayOfMonth();
+        int BulanSaatIni = localDate.getMonthValue();
+        int TanggalSaatIni = localDate.getDayOfMonth();
 
-        String hariBulanLahir = String.format("%2s", tiket.getTanggalLahir().getDayOfMonth()).replace(' ', '0')
+        String hariBulanLahir =
+                String.format("%2s", tiket.getTanggalLahir().getDayOfMonth()).replace(' ', '0')
                 +
                 String.format("%2s", tiket.getTanggalLahir().getMonthValue()).replace(' ', '0');
-        String hariBulanIni = String.format("%2s", dateToday).replace(' ', '0') + String.format("%2s", monthToday).replace(' ', '0');
+
+        String hariBulanIni =
+                String.format("%2s", TanggalSaatIni).replace(' ', '0')
+                        +
+                        String.format("%2s", BulanSaatIni).replace(' ', '0');
 
         int hariIniInt = Integer.parseInt(hariBulanIni);
         int hariBulanLahirInt =  Integer.parseInt(hariBulanLahir);
